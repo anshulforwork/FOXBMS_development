@@ -109,7 +109,7 @@ typedef enum {
  *          <a href="../../../../introduction/naming-conventions.html" target="_blank">Naming Conventions</a>.
  * @ptype   uint
  */
-#define BS_NR_OF_MODULES_PER_STRING (1u)
+#define BS_NR_OF_MODULES_PER_STRING (2u)
 
 /**
  * @brief   number of cells per module
@@ -118,14 +118,16 @@ typedef enum {
  *          For details see
  *          <a href="../../../../introduction/naming-conventions.html" target="_blank">Naming Conventions</a>.
  * @ptype   uint
+ * for now we are using 2 slave thats why 2
  */
-#define BS_NR_OF_CELL_BLOCKS_PER_MODULE (18u)
+#define BS_NR_OF_CELL_BLOCKS_PER_MODULE (14u)
 
 /**
  * @brief   number of parallel connected battery cells in a cell block
  * @details For details see
  *          <a href="../../../../introduction/naming-conventions.html" target="_blank">Naming Conventions</a>.
  * @ptype   uint
+ * no. of ucap is 14 thatswhy 14
  */
 #define BS_NR_OF_PARALLEL_CELLS_PER_CELL_BLOCK (1u)
 
@@ -136,11 +138,12 @@ typedef enum {
  * @def     BS_NR_OF_GPIOS_PER_MODULE
  * @brief   Defines the number of GPIOs
  */
-#define BS_NR_OF_GPIOS_PER_MODULE (10u)
+#define BS_NR_OF_GPIOS_PER_MODULE (8u)
 
 /**
  * @def     BS_NR_OF_GPAS_PER_MODULE
  * @brief   Defines the number of GPA inputs
+ * in mc33775A no of gpio is 8
  */
 #define BS_NR_OF_GPAS_PER_MODULE (2u)
 
