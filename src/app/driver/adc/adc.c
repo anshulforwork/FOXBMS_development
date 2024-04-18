@@ -124,7 +124,7 @@ extern void ADC_Control(void) {
         case ADC_CONVERSION_FINISHED:
             adcGetData(adcREG1, adcGROUP1, &adc_adc1RawVoltages[0]);
             for (uint8_t i = 0u; i < MCU_ADC1_MAX_NR_CHANNELS; i++) {
-                adc_adc1Voltages.adc1ConvertedVoltages_mV[i] = ADC_ConvertVoltage(adc_adc1RawVoltages[i].value);
+                adc_adc1Voltages.adc1ConvertedVoltages_mV[i] = ADC_ConvertVoltage(adc_adc1RawVoltages[i].value); //FUNCTION FOR ADC
             }
             DATA_WRITE_DATA(&adc_adc1Voltages);
             adc_conversionState = ADC_START_CONVERSION;
