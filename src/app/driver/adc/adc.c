@@ -94,7 +94,7 @@ static float_t ADC_ConvertVoltage(uint16_t adcCounts) {
 
     /** For details to equation see Equation 28 in Technical Reference Manual SPNU563A - March 2018 page 852 */
     float_t result_mV = (((adcCounts + ADC_CONV_OFFSET) * (ADC_VREFHIGH_mV - ADC_VREFLOW_mV)) / ADC_CONV_FACTOR_12BIT) +
-                        ADC_VREFLOW_mV;
+                        ADC_VREFLOW_mV;//formula for adc conversion
 
     return result_mV;
 }
