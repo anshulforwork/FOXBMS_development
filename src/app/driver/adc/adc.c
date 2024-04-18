@@ -85,7 +85,7 @@ static DATA_BLOCK_ADC_VOLTAGE_s adc_adc1Voltages = {.header.uniqueId = DATA_BLOC
  * @param   adcCounts       digital value read by ADC
  * @return  voltage in mV
  */
-static float_t ADC_ConvertVoltage(uint16_t adcCounts);
+static float_t ADC_ConvertVoltage(uint16_t adcCounts);//---adc controlllllllll
 
 /*========== Static Function Implementations ================================*/
 
