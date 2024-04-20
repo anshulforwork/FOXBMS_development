@@ -59,7 +59,7 @@
 
 #ifndef FOXBMS__BATTERY_SYSTEM_CFG_H_
 #define FOXBMS__BATTERY_SYSTEM_CFG_H_
-
+// all the system level configuration have to perform here
 /*========== Includes =======================================================*/
 #include "general.h"
 
@@ -96,7 +96,7 @@ typedef enum {
  *          repetition macro is adapted.
  * @ptype   uint
  */
-#define BS_NR_OF_STRINGS (1u)
+#define BS_NR_OF_STRINGS (1u) // no of string in  our case it is 1
 
 /* safety check: due to implementation BS_NR_OF_STRINGS may not be larger than GEN_REPEAT_MAXIMUM_REPETITIONS */
 #if (BS_NR_OF_STRINGS > GEN_REPEAT_MAXIMUM_REPETITIONS)
@@ -109,7 +109,7 @@ typedef enum {
  *          <a href="../../../../introduction/naming-conventions.html" target="_blank">Naming Conventions</a>.
  * @ptype   uint
  */
-#define BS_NR_OF_MODULES_PER_STRING (2u)
+#define BS_NR_OF_MODULES_PER_STRING (2u)  // no of module (slave) right now it is 2
 
 /**
  * @brief   number of cells per module
@@ -120,7 +120,7 @@ typedef enum {
  * @ptype   uint
  * for now we are using 2 slave thats why 2
  */
-#define BS_NR_OF_CELL_BLOCKS_PER_MODULE (14u)
+#define BS_NR_OF_CELL_BLOCKS_PER_MODULE (14u) // The number of ucaps in the module is 14
 
 /**
  * @brief   number of parallel connected battery cells in a cell block
@@ -129,16 +129,16 @@ typedef enum {
  * @ptype   uint
  * no. of ucap is 14 thatswhy 14
  */
-#define BS_NR_OF_PARALLEL_CELLS_PER_CELL_BLOCK (1u)
+#define BS_NR_OF_PARALLEL_CELLS_PER_CELL_BLOCK (1u) // The no of parallel cell we are not using parallel cell thats why 1
 
 /** Value of the balancing resistors on the slave-board */
-#define BS_BALANCING_RESISTANCE_ohm (100.0)
+#define BS_BALANCING_RESISTANCE_ohm (100.0) 
 
 /**
  * @def     BS_NR_OF_GPIOS_PER_MODULE
  * @brief   Defines the number of GPIOs
  */
-#define BS_NR_OF_GPIOS_PER_MODULE (8u)
+#define BS_NR_OF_GPIOS_PER_MODULE (8u)  //in Mc33775A the no of GPIO is 8
 
 /**
  * @def     BS_NR_OF_GPAS_PER_MODULE
