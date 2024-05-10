@@ -91,6 +91,7 @@ extern STD_RETURN_TYPE_e NXP_Initialize(void) {
 
 extern STD_RETURN_TYPE_e NXP_StartMeasurement(void) {
     STD_RETURN_TYPE_e retval = STD_NOT_OK;
+
     return retval;
 }
 

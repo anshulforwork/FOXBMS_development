@@ -550,6 +550,16 @@ static void N775_IncrementStringSequence(N775_STATE_s *pState) {
 
 static void N775_Initialize(N775_STATE_s *pState) {
     FAS_ASSERT(pState != NULL_PTR);
+    N775_CommunicationWrite(
+        (N775_DEFAULT_CHAIN_ADDRESS),
+        MC33775_SYS_TPL_CFG_OFFSET,
+        MC33775_SYS_TPL_CFG_WAKEUPCOMPL_MC33775A_ENUM_VAL << MC33775_SYS_TPL_CFG_WAKEUPCOMPH_POS,
+        pState->pSpiTxSequence);
+    N775_CommunicationWrite(
+        (N775_DEFAULT_CHAIN_ADDRESS << 6),
+        MC33775_SYS_TPL_CFG_OFFSET,
+        MC33775_SYS_TPL_CFG_WAKEUPCOMPL_MC33664_ENUM_VAL << MC33775_SYS_TPL_CFG_WAKEUPCOMPL_POS,
+        pState->pSpiTxSequence);
 
     /* Reset mux sequence */
     N775_ResetMuxIndex(pState);
@@ -1214,6 +1224,7 @@ extern void N775_Measure(N775_STATE_s *pState) {
 
     /* Initialize each string */
     N775_ResetStringSequence(pState);
+    //while
     while (pState->currentString < BS_NR_OF_STRINGS) {
         /* Initialize mux sequence pointers */
         pState->pMuxSequenceStart[pState->currentString] = n775_muxSequence;
