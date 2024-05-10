@@ -109,7 +109,8 @@ typedef enum {
  *          <a href="../../../../introduction/naming-conventions.html" target="_blank">Naming Conventions</a>.
  * @ptype   uint
  */
-#define BS_NR_OF_MODULES_PER_STRING (2u)
+
+#define BS_NR_OF_MODULES_PER_STRING (5u)
 
 /**
  * @brief   number of cells per module
@@ -151,7 +152,7 @@ typedef enum {
  * @brief   number of temperature sensors per battery module
  * @ptype   int
  */
-#define BS_NR_OF_TEMP_SENSORS_PER_MODULE (8u)
+#define BS_NR_OF_TEMP_SENSORS_PER_MODULE (4u)
 
 #if BS_NR_OF_TEMP_SENSORS_PER_MODULE > BS_NR_OF_GPIOS_PER_MODULE
 #error "Number of temperature inputs cannot be higher than number of GPIOs"

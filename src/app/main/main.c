@@ -61,6 +61,8 @@
 #include "HL_gio.h"
 #include "HL_het.h"
 #include "HL_pinmux.h"
+#include "HL_reg_sci.h"
+#include "HL_sci.h"
 #include "HL_sys_core.h"
 
 #include "adc.h"
@@ -91,6 +93,7 @@
 int main(void) {
     MINFO_SetResetSource(getResetSource()); /* Get reset source and clear respective flags */
     _enable_IRQ_interrupt_();
+    // sciInit();
     muxInit();
     gioInit();
     SPI_Initialize();

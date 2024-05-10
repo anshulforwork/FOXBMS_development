@@ -59,6 +59,7 @@
 
 #include "HL_reg_het.h"
 
+#include "contactor.h"
 #include "fassert.h"
 #include "io.h"
 
@@ -86,6 +87,7 @@ static uint32_t led_onOffTime_ms = 0u;
 /*========== Extern Function Implementations ================================*/
 extern void LED_SetDebugLed(void) {
     IO_PinSet(&LED_PORT->DOUT, LED_PIN);
+    CONT_CloseContactor(0u, CONT_MINUS);
 }
 
 extern void LED_Trigger(void) {
@@ -104,8 +106,10 @@ extern void LED_Trigger(void) {
     if (0u == (((uint64_t)counter * LED_PERIODIC_CALL_TIME_ms) % led_tmpOnOffTime_ms)) {
         if (STD_PIN_HIGH == IO_PinGet(&LED_PORT->DIN, LED_PIN)) {
             IO_PinReset(&LED_PORT->DOUT, LED_PIN);
+            // CONT_CloseContactor(0u, CONT_PLUS);
         } else {
             IO_PinSet(&LED_PORT->DOUT, LED_PIN);
+            // CONT_OpenContactor(0u, CONT_PLUS);
         }
         counter = 0u;
     }

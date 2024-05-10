@@ -81,6 +81,7 @@ extern STD_RETURN_TYPE_e NXP_Measure(void) {
 }
 
 extern STD_RETURN_TYPE_e NXP_Initialize(void) {
+    //trigger enable
     PEX_SetPinDirectionOutput(PEX_PORT_EXPANDER3, PEX_PIN10);
     PEX_SetPin(PEX_PORT_EXPANDER3, PEX_PIN10);
     /* Leave time for the PEX to be triggered in the 10ms task */

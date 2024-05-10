@@ -240,8 +240,9 @@ extern void FTSK_RunUserCodeCyclic10ms(void) {
     SYSM_UpdateFramData();
     SYS_Trigger(&sys_state);
     ILCK_Trigger();
-    ADC_Control();
     SPS_Ctrl();
+    ADC_Control();
+    //SPS_Ctrl();
     CAN_MainFunction();
     SOF_Calculation();
     ALGO_MonitorExecutionTime();
@@ -256,7 +257,7 @@ extern void FTSK_RunUserCodeCyclic10ms(void) {
      * called modules in this task to update respectively evaluate their new.
      * This minimizes the delay between data evaluation and the reaction from
      * the BMS module */
-    BMS_Trigger();
+    // BMS_Trigger();
     ftsk_cyclic10msCounter++;
 }
 

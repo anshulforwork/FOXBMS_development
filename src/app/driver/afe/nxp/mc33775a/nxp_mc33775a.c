@@ -497,7 +497,7 @@ static STD_RETURN_TYPE_e N775_Enumerate(N775_STATE_s *pState) {
         returnedValue = N775_CommunicationReadMultiple(i, 3u, 3u, MC33775_SYS_UID_LOW_OFFSET, uid, pState);
         if (returnedValue == N775_COMMUNICATION_OK) {
             pState->n775Data.uid[pState->currentString][i - 1u] = 0u;
-            for (uint8_t j = 0u; j <= 3u; j++) {
+            for (uint8_t j = 0u; j <= 2u; j++) {
                 pState->n775Data.uid[pState->currentString][i - 1u] |= ((uint64_t)uid[j]) << (16u * j);
             }
         }
@@ -550,16 +550,16 @@ static void N775_IncrementStringSequence(N775_STATE_s *pState) {
 
 static void N775_Initialize(N775_STATE_s *pState) {
     FAS_ASSERT(pState != NULL_PTR);
-    N775_CommunicationWrite(
-        (N775_DEFAULT_CHAIN_ADDRESS),
-        MC33775_SYS_TPL_CFG_OFFSET,
-        MC33775_SYS_TPL_CFG_WAKEUPCOMPL_MC33775A_ENUM_VAL << MC33775_SYS_TPL_CFG_WAKEUPCOMPH_POS,
-        pState->pSpiTxSequence);
-    N775_CommunicationWrite(
-        (N775_DEFAULT_CHAIN_ADDRESS << 6),
-        MC33775_SYS_TPL_CFG_OFFSET,
-        MC33775_SYS_TPL_CFG_WAKEUPCOMPL_MC33664_ENUM_VAL << MC33775_SYS_TPL_CFG_WAKEUPCOMPL_POS,
-        pState->pSpiTxSequence);
+    // N775_CommunicationWrite(
+    //     (N775_DEFAULT_CHAIN_ADDRESS<<6),
+    //     MC33775_SYS_TPL_CFG_OFFSET,
+    //     MC33775_SYS_TPL_CFG_WAKEUPCOMPL_MC33775A_ENUM_VAL << MC33775_SYS_TPL_CFG_WAKEUPCOMPH_POS,
+    //     pState->pSpiTxSequence);
+    // N775_CommunicationWrite(
+    //     (N775_DEFAULT_CHAIN_ADDRESS << 6),
+    //     MC33775_SYS_TPL_CFG_OFFSET,
+    //     MC33775_SYS_TPL_CFG_WAKEUPCOMPL_MC33664_ENUM_VAL << MC33775_SYS_TPL_CFG_WAKEUPCOMPL_POS,
+    //     pState->pSpiTxSequence);
 
     /* Reset mux sequence */
     N775_ResetMuxIndex(pState);

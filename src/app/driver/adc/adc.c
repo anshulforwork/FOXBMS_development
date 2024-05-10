@@ -55,6 +55,10 @@
 /*========== Includes =======================================================*/
 #include "adc.h"
 
+#include "HL_reg_sci.h"
+#include "HL_sci.h"
+
+#include "contactor.h"
 #include "database.h"
 
 #include <math.h>
@@ -62,6 +66,14 @@
 #include <stdint.h>
 
 /*========== Macros and Definitions =========================================*/
+
+#define R_input  (20u)
+#define R_output (120u)
+#define sample   (25u)
+
+#define UART   sciREG1
+#define tsize1 1
+uint8_t text1[tsize1] = {'A'};
 
 /*========== Static Constant and Variable Definitions =======================*/
 
@@ -77,7 +89,10 @@ static adcData_t adc_adc1RawVoltages[MCU_ADC1_MAX_NR_CHANNELS] = {0};
 static DATA_BLOCK_ADC_VOLTAGE_s adc_adc1Voltages = {.header.uniqueId = DATA_BLOCK_ID_ADC_VOLTAGE};
 
 /*========== Extern Constant and Variable Definitions =======================*/
-
+extern float_t Terminal_voltage(float Rin, float Rout, uint8_t samples);
+extern void voltage_Contactor_control();
+extern void sciDisplayText(sciBASE_t *sci, uint8 *text, uint32 length);
+//extern void wait(uint32_t time);
 /*========== Static Function Prototypes =====================================*/
 
 /**
@@ -124,10 +139,12 @@ extern void ADC_Control(void) {
         case ADC_CONVERSION_FINISHED:
             adcGetData(adcREG1, adcGROUP1, &adc_adc1RawVoltages[0]);
             for (uint8_t i = 0u; i < MCU_ADC1_MAX_NR_CHANNELS; i++) {
-                adc_adc1Voltages.adc1ConvertedVoltages_mV[i] = ADC_ConvertVoltage(adc_adc1RawVoltages[i].value); //FUNCTION FOR ADC
+                adc_adc1Voltages.adc1ConvertedVoltages_mV[i] =
+                    ADC_ConvertVoltage(adc_adc1RawVoltages[i].value);  //FUNCTION FOR ADC
             }
             DATA_WRITE_DATA(&adc_adc1Voltages);
             adc_conversionState = ADC_START_CONVERSION;
+
             break;
 
         default:
@@ -135,7 +152,52 @@ extern void ADC_Control(void) {
             FAS_ASSERT(FAS_TRAP);
             break;
     }
+
+    Terminal_voltage(R_input, R_output, sample);
+    sciDisplayText(UART, &text1[0], tsize1);
+    voltage_Contactor_control();
 }
+extern float_t Terminal_voltage(float Rin, float Rout, uint8_t samples) {
+    float mean_data = 0.0;
+    float adc_read  = 0.0;
+    float_t terminal_volt;
+    for (uint8_t i = 0; i <= samples; i++) {
+        adc_read = ADC_ConvertVoltage(adc_adc1RawVoltages[24].value);
+        mean_data += adc_read;
+    }
+    mean_data     = (mean_data / samples);
+    terminal_volt = ((mean_data * Rin * 1000) / (2.5 * Rout));
+    return terminal_volt;
+    // float terminalVoltage (float RIN, float Rb, uint8_t samples) {
+    // float meanData = 0.0, adcRead = 0.0;
+    // for (uint8_t i = 0; i < samples ; i++){
+    // adcRead = readADC();
+    // meanData +=adcRead;
+    // }
+    // meanData /= samples;
+    // return ( (meanData * RIN * 1000 ) / (2.5 * Rb) );
+    // }
+}
+extern void voltage_Contactor_control() {
+    if (Terminal_voltage(R_input, R_output, sample) >= 16000) {
+        CONT_OpenContactor(0u, CONT_PLUS);    //CHARGING CONTACTOR
+        CONT_CloseContactor(0u, CONT_MINUS);  //DISHARGING CONTACTOR
+        MCU_Delay_us(5000);
+    } else if ((Terminal_voltage(R_input, R_output, sample) <= 1800)) {
+        CONT_CloseContactor(0u, CONT_PLUS);  //CHARGING
+        CONT_OpenContactor(0u, CONT_MINUS);  //DISCHARGING
+        MCU_Delay_us(5000);
+    }
+}
+extern void sciDisplayText(sciBASE_t *sci, uint8 *text, uint32 length) {
+    sciInit();
+
+    sciSendByte(sciREG1, *text++);
+}
+
+// void wait(uint32 time) {
+//     time--;
+// }
 
 /*========== Externalized Static Function Implementations (Unit Test) =======*/
 #ifdef UNITY_UNIT_TEST
