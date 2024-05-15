@@ -71,9 +71,9 @@
 #define R_output (120u)
 #define sample   (25u)
 
-#define UART   sciREG1
-#define tsize1 1
-uint8_t text1[tsize1] = {'A'};
+#define UART   sciREG4
+#define tsize1 2
+uint8_t text1[tsize1] = {'A', 'B'};
 
 /*========== Static Constant and Variable Definitions =======================*/
 
@@ -91,7 +91,7 @@ static DATA_BLOCK_ADC_VOLTAGE_s adc_adc1Voltages = {.header.uniqueId = DATA_BLOC
 /*========== Extern Constant and Variable Definitions =======================*/
 extern float_t Terminal_voltage(float Rin, float Rout, uint8_t samples);
 extern void voltage_Contactor_control();
-extern void sciDisplayText(sciBASE_t *sci, uint8 *text, uint32 length);
+extern void sciDisplayText(sciBASE_t *sci, uint8_t *text, uint32_t length);
 //extern void wait(uint32_t time);
 /*========== Static Function Prototypes =====================================*/
 
@@ -154,7 +154,9 @@ extern void ADC_Control(void) {
     }
 
     Terminal_voltage(R_input, R_output, sample);
-    sciDisplayText(UART, &text1[0], tsize1);
+    // sciInit();
+    // sciDisplayText(UART, &text1[0], tsize1);
+
     voltage_Contactor_control();
 }
 extern float_t Terminal_voltage(float Rin, float Rout, uint8_t samples) {
@@ -179,25 +181,28 @@ extern float_t Terminal_voltage(float Rin, float Rout, uint8_t samples) {
     // }
 }
 extern void voltage_Contactor_control() {
-    if (Terminal_voltage(R_input, R_output, sample) >= 16000) {
+    if (Terminal_voltage(R_input, R_output, sample) >= 10000) {
         CONT_OpenContactor(0u, CONT_PLUS);    //CHARGING CONTACTOR
         CONT_CloseContactor(0u, CONT_MINUS);  //DISHARGING CONTACTOR
-        MCU_Delay_us(5000);
+        //MCU_Delay_us(5000);
     } else if ((Terminal_voltage(R_input, R_output, sample) <= 1800)) {
         CONT_CloseContactor(0u, CONT_PLUS);  //CHARGING
         CONT_OpenContactor(0u, CONT_MINUS);  //DISCHARGING
-        MCU_Delay_us(5000);
+        //MCU_Delay_us(5000);
     }
 }
 extern void sciDisplayText(sciBASE_t *sci, uint8 *text, uint32 length) {
-    sciInit();
+    // sciInit();
 
-    sciSendByte(sciREG1, *text++);
+    while (length--) {
+        /* wait until busy */
+        sciSendByte(UART, *text++); /* send out text   */
+    };
 }
 
-// void wait(uint32 time) {
-//     time--;
-// }
+void wait(uint32 time) {
+    time--;
+}
 
 /*========== Externalized Static Function Implementations (Unit Test) =======*/
 #ifdef UNITY_UNIT_TEST

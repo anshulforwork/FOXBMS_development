@@ -57,6 +57,8 @@
 
 #include "ftask_cfg.h"
 
+#include "HL_gio.h"
+#include "HL_het.h"
 #include "HL_reg_het.h"
 
 #include "contactor.h"
@@ -86,8 +88,11 @@ static uint32_t led_onOffTime_ms = 0u;
 
 /*========== Extern Function Implementations ================================*/
 extern void LED_SetDebugLed(void) {
+    hetInit();
     IO_PinSet(&LED_PORT->DOUT, LED_PIN);
-    CONT_CloseContactor(0u, CONT_MINUS);
+    IO_SetPinDirectionToOutput(&hetPORT2->DOUT, PIN_HET_21);
+    IO_PinSet(&hetPORT2->DOUT, PIN_HET_21);
+    //CONT_CloseContactor(0u, CONT_MINUS);
 }
 
 extern void LED_Trigger(void) {

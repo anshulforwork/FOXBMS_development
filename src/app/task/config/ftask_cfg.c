@@ -72,6 +72,7 @@
 #include "i2c.h"
 #include "imd.h"
 #include "interlock.h"
+#include "io.h"
 #include "led.h"
 #include "meas.h"
 #include "pex.h"
@@ -203,7 +204,6 @@ extern void FTSK_InitializeUserCodePreCyclicTasks(void) {
     /* Set 3rd PE pin to activate temperature/humidity sensor */
     PEX_SetPinDirectionOutput(PEX_PORT_EXPANDER3, PEX_PIN00);
     PEX_SetPin(PEX_PORT_EXPANDER3, PEX_PIN00);
-
     CONT_Initialize();
     SPS_Initialize();
     (void)MEAS_Initialize(); /* cast to void as the return value is unused */
@@ -277,7 +277,6 @@ extern void FTSK_RunUserCodeCyclic100ms(void) {
     BAL_Trigger();
     IMD_Trigger();
     LED_Trigger();
-
     ftsk_cyclic100msCounter++;
 }
 
