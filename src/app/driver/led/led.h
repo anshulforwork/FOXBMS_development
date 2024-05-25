@@ -67,8 +67,16 @@
 
 /*========== Includes =======================================================*/
 
-#include <stdint.h>
+//_____________________________________
+#include "HL_sci.h"  // for sci
 
+#include "stdio.h"
+//___________________________________________
+#include <stdint.h>
+// Base Addresses of SCI Control registers.
+#define UART3 ((sciBASE_t *)0xFFF7E500U)
+#define UART4 ((sciBASE_t *)0xFFF7E700U)
+//_______________________________________________
 /*========== Macros and Definitions =========================================*/
 /** time span to be used with #LED_SetToggleTime() indicating normal operation */
 #define LED_NORMAL_OPERATION_ON_OFF_TIME_ms (500u)
@@ -96,6 +104,10 @@ extern void LED_Trigger(void);
  * @param   onOffTime_ms requested time for ON/OFF duration in ms
  */
 extern void LED_SetToggleTime(uint32_t onOffTime_ms);
+
+// Declaration of Function  for Sending String
+void sciSendString(sciBASE_t *sci, uint8_t *data, uint16_t length);
+//________________________________________________________
 
 /*========== Externalized Static Functions Prototypes (Unit Test) ===========*/
 #ifdef UNITY_UNIT_TEST
