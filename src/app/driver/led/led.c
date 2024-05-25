@@ -77,6 +77,11 @@
 /** duration of a half a LED blink cycle in ms */
 static uint32_t led_onOffTime_ms = 0u;
 
+// defining data which want to send through Sci
+uint8_t DATA1[] = "SCI3 IS WORKING ON MASTER CARD";
+uint8_t DATA2[] = "SCI4 IS WORKING ON MASTER CARD";
+//______________________________________________________________________________
+
 /*========== Extern Constant and Variable Definitions =======================*/
 
 /*========== Static Function Prototypes =====================================*/
@@ -90,6 +95,12 @@ extern void LED_SetDebugLed(void) {
 
 extern void LED_Trigger(void) {
     OS_EnterTaskCritical();
+    // Sending the Data
+    uint16_t length  = sizeof(DATA1) / sizeof(DATA1[0]);
+    uint16_t length1 = sizeof(DATA2) / sizeof(DATA2[0]);
+    sciSendString(UART3, DATA1, length);
+    sciSendString(UART4, DATA2, length1);
+    //___________________________________________________________________________________
     uint32_t led_tmpOnOffTime_ms = led_onOffTime_ms;
     OS_ExitTaskCritical();
     FAS_ASSERT(led_tmpOnOffTime_ms != 0u);
@@ -116,6 +127,15 @@ extern void LED_SetToggleTime(uint32_t onOffTime_ms) {
     led_onOffTime_ms = onOffTime_ms;
     FAS_ASSERT(led_onOffTime_ms != 0u);
 }
+// Body for Send String Function
+extern void sciSendString(sciBASE_t *sci, uint8_t *data, uint16_t length) {
+    uint8_t i = 0;
+    for (i = 0; i < length - 1; i++) {
+        sciSendByte(sci, data[i]);
+    }
+    sciSendByte(sci, '\n');
+}
+//________________________________________________________________
 
 /*========== Externalized Static Function Implementations (Unit Test) =======*/
 #ifdef UNITY_UNIT_TEST

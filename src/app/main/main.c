@@ -61,6 +61,7 @@
 #include "HL_gio.h"
 #include "HL_het.h"
 #include "HL_pinmux.h"
+#include "HL_sci.h"  // include it for the Sci Communication
 #include "HL_sys_core.h"
 
 #include "adc.h"
@@ -99,6 +100,11 @@ int main(void) {
     etpwmInit();
     crcInit();
     LED_SetDebugLed();
+    // for the SCI Communication
+    sciInit();
+    sciSetBaudrate(UART3, 115200);  // Set Baudrate
+    sciSetBaudrate(UART4, 115200);  // Set Baudrate
+    //_______________________________________________________________
     I2C_Initialize();
     DMA_Initialize();
     PWM_Initialize();
