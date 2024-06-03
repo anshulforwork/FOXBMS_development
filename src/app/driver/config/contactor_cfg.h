@@ -86,7 +86,9 @@ typedef enum {
     CONT_PLUS,      /*!< Contactor is placed in HV plus path */
     CONT_MINUS,     /*!< Contactor is placed in HV minus path */
     CONT_PRECHARGE, /*!< Contactor is used as precharge contactor, installed as a plus contactor */
-    CONT_UNDEFINED, /*!< Undefined contactor */
+    CONT_UNDEFINED,
+    CONT_In,
+    cont_out, /*!< Undefined contactor */
 } CONT_TYPE_e;
 
 /**

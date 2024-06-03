@@ -73,6 +73,7 @@
 #define ADC_CONV_FACTOR_12BIT (4096.0f)
 /** ADC conversion factor, 10 bit conversion */
 #define ADC_CONV_FACTOR_10BIT (1024.0f)
+#define ADC_CONV_FACTOR_11BIT (2048.0f)
 /** ADC conversion offset */
 #define ADC_CONV_OFFSET (0.5f)
 
@@ -97,7 +98,9 @@ typedef enum {
  *
  */
 extern void ADC_Control(void);
-
+extern void voltage_Contactor_control_input(void);
+extern void voltage_Contactor_control_output(void);
+extern void adc_display();
 /*========== Externalized Static Functions Prototypes (Unit Test) ===========*/
 #ifdef UNITY_UNIT_TEST
 #endif

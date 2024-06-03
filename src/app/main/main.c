@@ -75,6 +75,7 @@
 #include "master_info.h"
 #include "os.h"
 #include "pwm.h"
+#include "sensordisplay.h"
 #include "spi.h"
 
 #include <stdint.h>
@@ -93,7 +94,7 @@
 int main(void) {
     MINFO_SetResetSource(getResetSource()); /* Get reset source and clear respective flags */
     _enable_IRQ_interrupt_();
-    // sciInit();
+    sciInit();
     muxInit();
     gioInit();
     SPI_Initialize();
@@ -107,6 +108,7 @@ int main(void) {
     PWM_Initialize();
     DIAG_Initialize(&diag_device);
     MATH_StartupSelfTest();
+
     const STD_RETURN_TYPE_e checkTimeHasPassedSelfTestReturnValue = OS_CheckTimeHasPassedSelfTest();
     FAS_ASSERT(checkTimeHasPassedSelfTestReturnValue == STD_OK);
 

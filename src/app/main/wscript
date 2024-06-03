@@ -70,6 +70,7 @@ def build(bld):
         os.path.join("..", "driver", "led"),
         os.path.join("..", "driver", "meas"),
         os.path.join("..", "driver", "pwm"),
+        os.path.join("..", "driver", "sensordisplay"),
         os.path.join("..", "driver", "spi"),
         os.path.join("..", "driver", "sps"),
         os.path.join("..", "driver", "mcu"),

@@ -7,7 +7,7 @@
 "--"diag_error=225
 
 /* unnecessary semicolon at line end */
-"--"diag_error=383
+"--"diag_=383
 
 /* not referenced */
 "--"diag_remark=880

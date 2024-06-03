@@ -60,22 +60,29 @@
 
 #include "contactor.h"
 #include "database.h"
+#include "sensordisplay.h"
 
 #include <math.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <stdlib.h>
 
 /*========== Macros and Definitions =========================================*/
 
-#define R_input  (20u)
-#define R_output (120u)
-#define sample   (25u)
+//#define UART sciREG1
 
-#define UART   sciREG4
-#define tsize1 2
-uint8_t text1[tsize1] = {'A', 'B'};
+#define R_input  (25u)
+#define R_output (150u)
+#define sample   (50u)
+#define UTV      (80000u)
+#define LTV      (40000u)
+// #define UART4    sciREG4
+// #define tsize1   (2u)
+// uint8_t text1[tsize1] = {'A', 'B'};
 
 /*========== Static Constant and Variable Definitions =======================*/
+float_t terminal_volt;
+uint8 terminal_volt_int;
 
 /**
  * @brief   describes the current state of the conversion
@@ -89,10 +96,13 @@ static adcData_t adc_adc1RawVoltages[MCU_ADC1_MAX_NR_CHANNELS] = {0};
 static DATA_BLOCK_ADC_VOLTAGE_s adc_adc1Voltages = {.header.uniqueId = DATA_BLOCK_ID_ADC_VOLTAGE};
 
 /*========== Extern Constant and Variable Definitions =======================*/
-extern float_t Terminal_voltage(float Rin, float Rout, uint8_t samples);
-extern void voltage_Contactor_control();
-extern void sciDisplayText(sciBASE_t *sci, uint8_t *text, uint32_t length);
+// extern float_t Terminal_voltage(float Rin, float Rout, uint8_t samples);
+// extern void voltage_Contactor_control_input();
+// extern void voltage_Contactor_control_output();
+//extern void sciDisplayText(sciBASE_t *sci, uint8_t *text, uint32_t length);
 //extern void wait(uint32_t time);
+static uint8 voltage_sensor_Input_1[] = "Input voltage:  ";
+static uint16_t length_vs1            = sizeof(voltage_sensor_Input_1) / sizeof(voltage_sensor_Input_1[0]);
 /*========== Static Function Prototypes =====================================*/
 
 /**
@@ -153,22 +163,29 @@ extern void ADC_Control(void) {
             break;
     }
 
-    Terminal_voltage(R_input, R_output, sample);
-    // sciInit();
-    // sciDisplayText(UART, &text1[0], tsize1);
+    //Terminal_voltage(R_input, R_output, sample);
+}
+void adc_display() {
+    scisendtext(UART3, &voltage_sensor_Input_1[0], length_vs1);
 
-    voltage_Contactor_control();
+    sciDisplayData(UART3, &terminal_volt_int, 1);
 }
 extern float_t Terminal_voltage(float Rin, float Rout, uint8_t samples) {
+    // while ((UART->FLR & 0x4) == 4) {
+    //     // Do nothing
+    // };
+    // sciSendByte(UART, 'A');
+
     float mean_data = 0.0;
     float adc_read  = 0.0;
-    float_t terminal_volt;
-    for (uint8_t i = 0; i <= samples; i++) {
+
+    for (uint16_t i = 0; i <= samples; i++) {
         adc_read = ADC_ConvertVoltage(adc_adc1RawVoltages[24].value);
         mean_data += adc_read;
     }
-    mean_data     = (mean_data / samples);
-    terminal_volt = ((mean_data * Rin * 1000) / (2.5 * Rout));
+    mean_data         = (mean_data / samples);
+    terminal_volt     = ((mean_data * Rin * 1000) / (2.5 * Rout));
+    terminal_volt_int = (uint8)terminal_volt;
     return terminal_volt;
     // float terminalVoltage (float RIN, float Rb, uint8_t samples) {
     // float meanData = 0.0, adcRead = 0.0;
@@ -180,29 +197,47 @@ extern float_t Terminal_voltage(float Rin, float Rout, uint8_t samples) {
     // return ( (meanData * RIN * 1000 ) / (2.5 * Rb) );
     // }
 }
-extern void voltage_Contactor_control() {
-    if (Terminal_voltage(R_input, R_output, sample) >= 10000) {
-        CONT_OpenContactor(0u, CONT_PLUS);    //CHARGING CONTACTOR
-        CONT_CloseContactor(0u, CONT_MINUS);  //DISHARGING CONTACTOR
-        //MCU_Delay_us(5000);
-    } else if ((Terminal_voltage(R_input, R_output, sample) <= 1800)) {
+
+extern void voltage_Contactor_control_input(void) {
+    if (Terminal_voltage(R_input, R_output, sample) >= (UTV)) {
+        CONT_OpenContactor(0u, CONT_PLUS);  //CHARGING CONTACTOR
+        MCU_Delay_us(200);
+        // CONT_CloseContactor(0u, CONT_MINUS);  //DISHARGING CONTACTOR
+        // MCU_Delay_us(500);
+    } else if (Terminal_voltage(R_input, R_output, sample) <= (LTV)) {
         CONT_CloseContactor(0u, CONT_PLUS);  //CHARGING
-        CONT_OpenContactor(0u, CONT_MINUS);  //DISCHARGING
+        MCU_Delay_us(200);
+        // CONT_OpenContactor(0u, CONT_MINUS);  //DISCHARGING
+        // MCU_Delay_us(500);
         //MCU_Delay_us(5000);
     }
 }
-extern void sciDisplayText(sciBASE_t *sci, uint8 *text, uint32 length) {
-    // sciInit();
-
-    while (length--) {
-        /* wait until busy */
-        sciSendByte(UART, *text++); /* send out text   */
-    };
+extern void voltage_Contactor_control_output(void) {
+    if ((Terminal_voltage(R_input, R_output, sample) >= (UTV))) {
+        // CONT_OpenContactor(0u, CONT_PLUS);  //CHARGING CONTACTOR
+        //MCU_Delay_us(500);
+        CONT_CloseContactor(0u, CONT_MINUS);  //DISHARGING CONTACTOR
+        MCU_Delay_us(500);
+    } else if (Terminal_voltage(R_input, R_output, sample) <= (LTV)) {
+        // /CONT_CloseContactor(0u, CONT_PLUS);  //CHARGING
+        // MCU_Delay_us(500);
+        CONT_OpenContactor(0u, CONT_MINUS);  //DISCHARGING
+        MCU_Delay_us(500);
+        //MCU_Delay_us(5000);
+    }
 }
+// extern void sciDisplayText(sciBASE_t *sci, uint8 *text, uint32 length) {
+//     // sciInit();
 
-void wait(uint32 time) {
-    time--;
-}
+//     while (length--) {
+//         /* wait until busy */
+//         sciSendByte(UART, *text++); /* send out text   */
+//     };
+// }
+
+// void wait(uint32 time) {
+//     time--;
+// }
 
 /*========== Externalized Static Function Implementations (Unit Test) =======*/
 #ifdef UNITY_UNIT_TEST

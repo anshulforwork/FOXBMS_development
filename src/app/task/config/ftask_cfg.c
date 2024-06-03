@@ -79,6 +79,7 @@
 #include "redundancy.h"
 #include "rtc.h"
 #include "sbc.h"
+#include "sensordisplay.h"
 #include "sof_trapezoid.h"
 #include "spi.h"
 #include "sps.h"
@@ -206,10 +207,13 @@ extern void FTSK_InitializeUserCodePreCyclicTasks(void) {
     PEX_SetPin(PEX_PORT_EXPANDER3, PEX_PIN00);
     CONT_Initialize();
     SPS_Initialize();
+    sciInit();
+    sciSetBaudrate(UART3, Baud_rate);
     (void)MEAS_Initialize(); /* cast to void as the return value is unused */
 
     /* Initialize redundancy module */
     (void)MRC_Initialize();
+    //sciInit();
 
     /* This function operates under the assumption that it is called when
      * the operating system is not yet running.
@@ -242,7 +246,11 @@ extern void FTSK_RunUserCodeCyclic10ms(void) {
     ILCK_Trigger();
     SPS_Ctrl();
     ADC_Control();
-    //SPS_Ctrl();
+
+    voltage_Contactor_control_input();
+
+    voltage_Contactor_control_output();
+
     CAN_MainFunction();
     SOF_Calculation();
     ALGO_MonitorExecutionTime();
@@ -257,7 +265,7 @@ extern void FTSK_RunUserCodeCyclic10ms(void) {
      * called modules in this task to update respectively evaluate their new.
      * This minimizes the delay between data evaluation and the reaction from
      * the BMS module */
-    // BMS_Trigger();
+    BMS_Trigger();
     ftsk_cyclic10msCounter++;
 }
 
@@ -273,9 +281,9 @@ extern void FTSK_RunUserCodeCyclic100ms(void) {
         SE_RunStateEstimations();
         ftsk_cyclic100msCounter = 0;
     }
-
+    adc_display();
     BAL_Trigger();
-    IMD_Trigger();
+    // IMD_Trigger();
     LED_Trigger();
     ftsk_cyclic100msCounter++;
 }

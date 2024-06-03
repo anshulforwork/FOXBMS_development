@@ -110,7 +110,7 @@ typedef enum {
  * @ptype   uint
  */
 
-#define BS_NR_OF_MODULES_PER_STRING (5u)
+#define BS_NR_OF_MODULES_PER_STRING (3u)
 
 /**
  * @brief   number of cells per module
@@ -133,7 +133,7 @@ typedef enum {
 #define BS_NR_OF_PARALLEL_CELLS_PER_CELL_BLOCK (1u)
 
 /** Value of the balancing resistors on the slave-board */
-#define BS_BALANCING_RESISTANCE_ohm (100.0)
+#define BS_BALANCING_RESISTANCE_ohm (120.0)
 
 /**
  * @def     BS_NR_OF_GPIOS_PER_MODULE
