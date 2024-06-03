@@ -13,14 +13,7 @@
  */
 /***********************************Includes*********************************/
 #include "sensordisplay.h"
-//include "HL_adc.h"
-// #include "HL_reg_sci.h"
-// #include "HL_sci.h"
-//#include "HL_sys_common.h"
-//include "HL_sys_vim.h"
-//#include "database.h"
 
-// #include "math.h"
 #include "stdio.h"
 
 #include <stdint.h>
@@ -29,12 +22,6 @@
 /*========== Static Constant and Variable Definitions =======================*/
 
 /*========== Static Function Implementations ================================*/
-// void scidisplay() {
-//     //sciInit();
-
-//     scisendtext(UART3, &voltage_sensor_Input_1[0], length_vs1);
-
-// }
 
 void scisendtext(sciBASE_t *sci, uint8 *data, uint16_t length) {
     uint8_t i = 0;
@@ -42,7 +29,7 @@ void scisendtext(sciBASE_t *sci, uint8 *data, uint16_t length) {
     for (i = 0; i < length - 1; i++) {
         sciSendByte(UART3, data[i]);
     }
-    sciSendByte(sci, '\n');
+    sciSendByte(sci, '\r');
 }
 
 void sciDisplayData(sciBASE_t *sci, uint8 *text, uint32 length) {
