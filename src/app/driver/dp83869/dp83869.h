@@ -2,7 +2,7 @@
  * dp83869.h
  *
  *  Created on: 29-May-2024
- *      Author: AARTECH_Gourav_Sankadia
+ *      Author: AARTECH_Solonics
  */
 
 #ifndef DP83869_H_

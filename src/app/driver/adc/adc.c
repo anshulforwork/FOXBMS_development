@@ -76,6 +76,9 @@
 #define LTV      (40000u)
 
 /*========== Static Constant and Variable Definitions =======================*/
+
+/*************DATA AQISITION CONSTANTS******************************/
+
 float_t terminal_volt_input;
 static uint8 terminal_volt_input_int;
 float_t terminal_volt_output;
@@ -84,10 +87,15 @@ float_t terminal_current_input;
 static uint8 terminal_current_input_int;
 float_t terminal_current_output;
 static uint8 terminal_current_output_int;
+
+/****************SENSOR DATA READ FUNCTIONS**************************/
+
 extern float_t Terminal_voltage_Input(float Rin, float R_burd, uint8_t samples);
 extern float_t Terminal_voltage_Output(float Rin, float R_burd, uint8_t samples);
 extern float_t Terminal_current_Input(float Rin, float R_burd, uint8_t samples);
 extern float_t Terminal_current_Output(float Rin, float R_burd, uint8_t samples);
+
+/*************************************SERIAL DATA READ****************************************/
 
 static uint8 voltage_sensor_Input_1[] = "Input voltage Sensor:  ";
 //static uint8 voltage_sensor_Unit_1[]   = " volts ";
@@ -99,6 +107,7 @@ static uint8 current_sensor_Input_1[]  = "Input current Sensor:  ";
 static uint16_t length_Is1             = sizeof(current_sensor_Input_1) / sizeof(current_sensor_Input_1[0]);
 static uint8 current_sensoR_burden_1[] = "Output current Sensor:  ";
 static uint16_t length_Is2             = sizeof(current_sensoR_burden_1) / sizeof(current_sensoR_burden_1[0]);
+/****************************************************************************************************************/
 /**
  * @brief   describes the current state of the conversion
  * @details This variable is used as a state-variable for switching through the
@@ -172,6 +181,7 @@ extern void ADC_Control(void) {
             break;
     }
 }
+/************************SENSOR DATA AQUISITION ON SERIAL MONITOR*****************************/
 void adc_display() {
     scisendtext(UART3, &voltage_sensor_Input_1[0], length_vs1);
     sciDisplayData(UART3, &terminal_volt_input_int, 1);
@@ -198,6 +208,7 @@ void adc_display() {
     // sciSendByte(UART3, '\n');
     wait(0xffff);
 }
+/***********************************INPUT VOLTAGE SENSOR DATA READ*******************************/
 extern float_t Terminal_voltage_Input(float Rin, float R_burd, uint8_t samples) {
     float mean_data_input = 0.0;
     float adc_read_input  = 0.0;
@@ -211,6 +222,7 @@ extern float_t Terminal_voltage_Input(float Rin, float R_burd, uint8_t samples) 
     terminal_volt_input_int = (uint8)terminal_volt_input;
     return terminal_volt_input;
 }
+/***********************************OUTPUT VOLTAGE SENSOR DATA READ*******************************/
 extern float_t Terminal_voltage_Output(float Rin, float R_burd, uint8_t samples) {
     float mean_data_output = 0.0;
     float adc_read_output  = 0.0;
@@ -224,6 +236,7 @@ extern float_t Terminal_voltage_Output(float Rin, float R_burd, uint8_t samples)
     terminal_volt_output_int = (uint8)terminal_volt_output;
     return terminal_volt_output;
 }
+/***********************************INPUT CURRENT SENSOR DATA READ*******************************/
 
 extern float_t Terminal_current_Input(float Rin, float R_burd, uint8_t samples) {
     float mean_data_input_current1 = 0.0;
@@ -238,6 +251,7 @@ extern float_t Terminal_current_Input(float Rin, float R_burd, uint8_t samples) 
     terminal_current_input_int = (uint8)terminal_current_input;
     return terminal_current_input;
 }
+/****************************OUTPUT CURRENT SENSOR DATA READ***************************************************/
 extern float_t Terminal_current_Output(float Rin, float R_burd, uint8_t samples) {
     float mean_data_output_current = 0.0;
     float adc_read_output_current  = 0.0;

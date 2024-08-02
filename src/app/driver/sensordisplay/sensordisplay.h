@@ -11,21 +11,12 @@
 
 #include "HL_reg_sci.h"
 #include "HL_sci.h"
-//#include "HL_sys_common.h"
-//#include "HL_sys_vim.h"
-
-// #include "math.h"
-// #include "stdio.h"
 
 #include <stdint.h>
 /*****************************Macros and definitions**************************/
 #define UART3 ((sciBASE_t *)0xFFF7E500U)
 
 #define Baud_rate (115200)
-
-// extern uint8 voltage_sensor_Output_1[] = "output voltage";
-// extern uint8 current_sensor_Input_2[]  = "Input current";
-// extern uint8 current_sensor_Output_2[] = "Output current";
 
 /*========== Extern Constant and Variable Declarations ======================*/
 
