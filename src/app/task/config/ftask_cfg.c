@@ -246,11 +246,7 @@ extern void FTSK_RunUserCodeCyclic10ms(void) {
     ILCK_Trigger();
     SPS_Ctrl();
     ADC_Control();
-
     voltage_Contactor_control_input();
-
-    voltage_Contactor_control_output();
-
     CAN_MainFunction();
     SOF_Calculation();
     ALGO_MonitorExecutionTime();
@@ -266,6 +262,7 @@ extern void FTSK_RunUserCodeCyclic10ms(void) {
      * This minimizes the delay between data evaluation and the reaction from
      * the BMS module */
     BMS_Trigger();
+    BAL_Trigger();
     ftsk_cyclic10msCounter++;
 }
 
@@ -281,10 +278,13 @@ extern void FTSK_RunUserCodeCyclic100ms(void) {
         SE_RunStateEstimations();
         ftsk_cyclic100msCounter = 0;
     }
-    adc_display();
-    BAL_Trigger();
+
     // IMD_Trigger();
     LED_Trigger();
+
+    // voltage_Contactor_control_output();
+
+    //voltage_Contactor_control_output();
     ftsk_cyclic100msCounter++;
 }
 

@@ -29,7 +29,7 @@ void scisendtext(sciBASE_t *sci, uint8 *data, uint16_t length) {
     for (i = 0; i < length - 1; i++) {
         sciSendByte(UART3, data[i]);
     }
-    sciSendByte(sci, '\r');
+    //sciSendByte(sci, '\r');
 }
 
 void sciDisplayData(sciBASE_t *sci, uint8 *text, uint32 length) {
@@ -38,10 +38,10 @@ void sciDisplayData(sciBASE_t *sci, uint8 *text, uint32 length) {
 
 #if ((__little_endian__ == 1) || (__LITTLE_ENDIAN__ == 1))
     text = text + (length - 1);
-    G
+
 #endif
 
-        while (length--) {
+    while (length--) {
 #if ((__little_endian__ == 1) || (__LITTLE_ENDIAN__ == 1))
         txt = *text--;
 #else
@@ -76,9 +76,6 @@ void sciDisplayData(sciBASE_t *sci, uint8 *text, uint32 length) {
                                     // while ((sciREG1->FLR & 0x4) == 4)
                                     // ;                           /* wait until busy */
         sciSendByte(UART3, txt);
-        sciSendByte(sci, '\n'); /* send out text   */
+        //sciSendByte(sci, '\n'); /* send out text   */
     };
-}
-void wait(uint32 time) {
-    time--;
 }

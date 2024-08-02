@@ -108,7 +108,10 @@ int main(void) {
     PWM_Initialize();
     DIAG_Initialize(&diag_device);
     MATH_StartupSelfTest();
-
+    //enable buck boost//
+    gioSetDirection(hetPORT2, 0x00200000);
+    gioSetBit(hetPORT2, 21, 1);
+    //********************// */
     const STD_RETURN_TYPE_e checkTimeHasPassedSelfTestReturnValue = OS_CheckTimeHasPassedSelfTest();
     FAS_ASSERT(checkTimeHasPassedSelfTestReturnValue == STD_OK);
 

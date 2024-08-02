@@ -104,6 +104,7 @@ def build(bld):
         os.path.join("..", "driver", "config"),
         os.path.join("..", "driver", "contactor"),
         os.path.join("..", "driver", "dma"),
+
         os.path.join("..", "driver", "fram"),
         os.path.join("..", "driver", "imd"),
         os.path.join("..", "driver", "interlock"),

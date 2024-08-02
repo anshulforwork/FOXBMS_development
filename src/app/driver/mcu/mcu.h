@@ -73,6 +73,7 @@
  * @details Checked in the data sheet spnu563a: ADC1 supports 32 channels
  */
 #define MCU_ADC1_MAX_NR_CHANNELS (32u)
+#define MCU_ADC2_MAX_NR_CHANNELS (32u)
 
 #ifndef UNITY_UNIT_TEST
 /** Address of Free Running Counter 0 (FRC0) */

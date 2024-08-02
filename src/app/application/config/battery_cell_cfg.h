@@ -79,7 +79,7 @@
 /**@{*/
 #define BC_TEMPERATURE_MAX_DISCHARGE_MSL_ddegC (550)
 #define BC_TEMPERATURE_MAX_DISCHARGE_RSL_ddegC (500)
-#define BC_TEMPERATURE_MAX_DISCHARGE_MOL_ddegC (450)
+#define BC_TEMPERATURE_MAX_DISCHARGE_MOL_ddegC (80)
 /**@}*/
 
 /**
@@ -94,7 +94,7 @@
 /**@{*/
 #define BC_TEMPERATURE_MIN_DISCHARGE_MSL_ddegC (-200)
 #define BC_TEMPERATURE_MIN_DISCHARGE_RSL_ddegC (-150)
-#define BC_TEMPERATURE_MIN_DISCHARGE_MOL_ddegC (-100)
+#define BC_TEMPERATURE_MIN_DISCHARGE_MOL_ddegC (-40)
 /**@}*/
 
 /**
@@ -159,9 +159,9 @@
  * @unit    mV
  */
 /**@{*/
-#define BC_VOLTAGE_MIN_MSL_mV (1700)
-#define BC_VOLTAGE_MIN_RSL_mV (1750)
-#define BC_VOLTAGE_MIN_MOL_mV (1780)
+#define BC_VOLTAGE_MIN_MSL_mV (700)
+#define BC_VOLTAGE_MIN_RSL_mV (750)
+#define BC_VOLTAGE_MIN_MOL_mV (780)
 /**@}*/
 
 /**
@@ -210,14 +210,14 @@
  * @ptype   int
  * @unit    mAh
  */
-#define BC_CAPACITY_mAh (3500u)
+#define BC_CAPACITY_mAh (2833u)
 
 /**
  * @brief   Cell energy
  * @ptype   float
  * @unit    Wh
  */
-#define BC_ENERGY_Wh (10.0f)
+#define BC_ENERGY_Wh (4.25f)
 
 #if BC_VOLTAGE_MIN_MSL_mV < BC_VOLTAGE_DEEP_DISCHARGE_mV
 #error "Configuration error! - Maximum safety limit for under voltage can't be lower than deep-discharge limit"

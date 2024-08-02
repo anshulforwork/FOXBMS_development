@@ -65,7 +65,8 @@
 
 /*========== Macros and Definitions =========================================*/
 
-/** ADC voltage reference, high */
+/** ADC voltage reference,
+ * high */
 #define ADC_VREFHIGH_mV (5000.0f)
 /** ADC voltage reference, low */
 #define ADC_VREFLOW_mV (0.0f)
@@ -74,6 +75,7 @@
 /** ADC conversion factor, 10 bit conversion */
 #define ADC_CONV_FACTOR_10BIT (1024.0f)
 #define ADC_CONV_FACTOR_11BIT (2048.0f)
+#define ADC_CONV_FACTOR_13BIT (8192.0)
 /** ADC conversion offset */
 #define ADC_CONV_OFFSET (0.5f)
 
@@ -98,6 +100,10 @@ typedef enum {
  *
  */
 extern void ADC_Control(void);
+
+// extern void ADC2_Control(void);
+extern void Aux_Contactor_control_input();
+extern void voltage_Contactor_control_Input();
 extern void voltage_Contactor_control_input(void);
 extern void voltage_Contactor_control_output(void);
 extern void adc_display();

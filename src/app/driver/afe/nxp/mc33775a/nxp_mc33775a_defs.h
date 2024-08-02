@@ -118,7 +118,7 @@
 /* Pre-balancing timer (0x0 - 0xFFFF) */
 #define N775_PRE_BALANCING_TIMER (0x0u)
 /* All channel balancing timer (0x0 - 0xFFFF) */
-#define N775_ALL_CHANNEL_BALANCING_TIMER (0x3FFFu)  //0xffff before
+#define N775_ALL_CHANNEL_BALANCING_TIMER (0xFFFFu)  //0xffff before
 /* Global balancing timer value to reach to reset it to max */
 #define N775_GLOBAL_BALANCING_TIMER_VALUE_SET_TO_MAX_AGAIN (0x1000u)
 /* Maximum number of tries to avoid endless loop when waiting for a flag to be ready */

@@ -94,7 +94,11 @@ def build(bld):
         os.path.join("config", "sps_cfg.c"),
         os.path.join("contactor", "contactor.c"),
         os.path.join("dma", "dma.c"),
-         os.path.join("dp83869", "dp83869.c"),
+
+
+
+
+
         os.path.join("foxmath", "foxmath.c"),
         os.path.join("fram", "fram.c"),
         os.path.join("htsensor", "htsensor.c"),
@@ -135,7 +139,7 @@ def build(bld):
         "contactor",
         "crc",
         "dma",
-        "dp83869",
+
         "foxmath",
         "fram",
         "htsensor",

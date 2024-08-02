@@ -110,7 +110,7 @@ typedef enum {
  * @ptype   uint
  */
 
-#define BS_NR_OF_MODULES_PER_STRING (3u)
+#define BS_NR_OF_MODULES_PER_STRING (5u)
 
 /**
  * @brief   number of cells per module
@@ -133,13 +133,13 @@ typedef enum {
 #define BS_NR_OF_PARALLEL_CELLS_PER_CELL_BLOCK (1u)
 
 /** Value of the balancing resistors on the slave-board */
-#define BS_BALANCING_RESISTANCE_ohm (120.0)
+#define BS_BALANCING_RESISTANCE_ohm (68.0)
 
 /**
  * @def     BS_NR_OF_GPIOS_PER_MODULE
  * @brief   Defines the number of GPIOs
  */
-#define BS_NR_OF_GPIOS_PER_MODULE (8u)
+#define BS_NR_OF_GPIOS_PER_MODULE (6u)
 
 /**
  * @def     BS_NR_OF_GPAS_PER_MODULE
@@ -152,7 +152,7 @@ typedef enum {
  * @brief   number of temperature sensors per battery module
  * @ptype   int
  */
-#define BS_NR_OF_TEMP_SENSORS_PER_MODULE (4u)
+#define BS_NR_OF_TEMP_SENSORS_PER_MODULE (2u)
 
 #if BS_NR_OF_TEMP_SENSORS_PER_MODULE > BS_NR_OF_GPIOS_PER_MODULE
 #error "Number of temperature inputs cannot be higher than number of GPIOs"
@@ -310,7 +310,7 @@ typedef enum {
  *          -----+---| FUSE |-----+------------/   -----------------
  *                   +------+
  */
-#define BS_CHECK_FUSE_PLACED_IN_NORMAL_PATH (true)
+#define BS_CHECK_FUSE_PLACED_IN_NORMAL_PATH (false)
 
 /**
  * @brief   TODO

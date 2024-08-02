@@ -613,8 +613,9 @@ typedef struct {
     /* This struct needs to be at the beginning of every database entry. During
      * the initialization of a database struct, uniqueId must be set to the
      * respective database entry representation in enum DATA_BLOCK_ID_e. */
-    DATA_BLOCK_HEADER_s header;                                 /*!< Data block header */
-    float_t adc1ConvertedVoltages_mV[MCU_ADC1_MAX_NR_CHANNELS]; /*!< voltages measured by the internal ADC ADC1 */
+    DATA_BLOCK_HEADER_s header; /*!< Data block header */
+    float_t adc1ConvertedVoltages_mV[MCU_ADC1_MAX_NR_CHANNELS];
+    float_t adc2ConvertedVoltages_mV[MCU_ADC1_MAX_NR_CHANNELS]; /*!< voltages measured by the internal ADC ADC1 */
 } DATA_BLOCK_ADC_VOLTAGE_s;
 
 /** data block struct for the database built-in self-test */
