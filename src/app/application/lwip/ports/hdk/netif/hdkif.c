@@ -168,9 +168,11 @@ uint32 hdkif_swizzle_data(uint32 word) {
 //         ((word >> 24) & 0x000000FF));
 // #endif
 #if ((__little_endian__ == 1) || (__LITTLE_ENDIAN__ == 1))
-    return word;
-#else
+    //return word;
     return __rev(word);
+#else
+    return (word);
+    // return __rev(word);
 #endif
 }
 
@@ -271,12 +273,12 @@ static void hdkif_transmit(struct hdkif *hdkif, struct pbuf *pbuf) {
     struct pbuf *q;
     struct txch *txch;
     volatile struct emac_tx_bdp *curr_bd, *active_head, *bd_end;
-
+    //uint16 qLen;
     txch = &(hdkif->txch);
 
     /* Get the buffer descriptor which is free to transmit */
-    curr_bd = txch->free_head;
-
+    curr_bd     = txch->free_head;
+    bd_end      = curr_bd;
     active_head = curr_bd;
 
     /* Update the total packet length */
@@ -287,7 +289,8 @@ static void hdkif_transmit(struct hdkif *hdkif, struct pbuf *pbuf) {
     /* Copy pbuf information into TX buffer descriptors */
     for (q = pbuf; q != NULL; q = q->next) {
         /* Intialize the buffer pointer and length */
-        curr_bd->bufptr     = hdkif_swizzle_data((uint32)(q->payload));
+        curr_bd->bufptr = hdkif_swizzle_data((uint32)(q->payload));
+        //  qLen                = (uint16)(q->len);
         curr_bd->bufoff_len = hdkif_swizzle_data((q->len) & 0xFFFF);
         bd_end              = curr_bd;
         curr_bd->pbuf       = pbuf;
@@ -663,7 +666,7 @@ err_t hdkif_init(struct netif *netif) {
    * The last argument should be replaced with your link speed, in units
    * of bits per second.
   */
-    NETIF_INIT_SNMP(netif, snmp_ifType_ethernet_csmacd, 10000000);
+    NETIF_INIT_SNMP(netif, snmp_ifType_ethernet_csmacd, 100000000);
 
     hdkif->inst_num = inst_num;
 
@@ -679,7 +682,7 @@ err_t hdkif_init(struct netif *netif) {
    */
     netif->output     = etharp_output;
     netif->linkoutput = hdkif_output;
-
+    EMACInit(hdkif->emac_ctrl_base, hdkif->emac_base);
     /* initialize the hardware */
     hdkif_inst_config(hdkif);
 
