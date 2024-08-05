@@ -57,6 +57,77 @@ def build(bld):
         os.path.join("config", "soa_cfg.c"),
         os.path.join("plausibility", "plausibility.c"),
         os.path.join("redundancy", "redundancy.c"),
+         os.path.join("lwip","apps","httpserver_raw","fs.c"),
+
+        os.path.join("lwip", "apps","httpserver_raw","httpd.c"),
+        os.path.join("lwip", "hdk","src","lwip_main.c"),
+        os.path.join("lwip", "ports","hdk","netif","hdkif.c"),
+
+        os.path.join("lwip", "ports","hdk","locator.c"),
+        os.path.join("lwip","ports","hdk","lwiplib.c"),
+        os.path.join( "lwip","ports","hdk","perf.c"),
+        os.path.join( "lwip","ports","hdk","sys_arch.c"),
+
+        os.path.join( "lwip","src","api","api_lib.c"),
+        os.path.join( "lwip","src","api","api_msg.c"),
+        os.path.join( "lwip","src","api","err.c"),
+        os.path.join( "lwip","src","api","netbuf.c"),
+        os.path.join( "lwip","src","api","netdb.c"),
+        os.path.join( "lwip","src","api","netifapi.c"),
+        os.path.join( "lwip","src","api","sockets.c"),
+        os.path.join( "lwip","src","api","tcpip.c"),
+
+        os.path.join( "lwip","src","core","ipv4","autoip.c"),
+        os.path.join( "lwip","src","core","ipv4","icmp.c"),
+        os.path.join( "lwip","src","core","ipv4","igmp.c"),
+        os.path.join( "lwip","src","core","ipv4","inet_chksum.c"),
+        os.path.join( "lwip","src","core","ipv4","inet.c"),
+        os.path.join( "lwip","src","core","ipv4","ip_addr.c"),
+        os.path.join( "lwip","src","core","ipv4","ip_frag.c"),
+        os.path.join( "lwip","src","core","ipv4","ip.c"),
+        os.path.join( "lwip","src","core","snmp","asn1_dec.c"),
+        os.path.join( "lwip","src","core","snmp","asn1_enc.c"),
+        os.path.join( "lwip","src","core","snmp","mib_structs.c"),
+        os.path.join( "lwip","src","core","snmp","mib2.c"),
+        os.path.join( "lwip","src","core","snmp","msg_in.c"),
+        os.path.join( "lwip","src","core","snmp","msg_out.c"),
+
+        os.path.join( "lwip","src","core","def.c"),
+        os.path.join( "lwip","src","core","dhcp.c"),
+        os.path.join( "lwip","src","core","dns.c"),
+        os.path.join( "lwip","src","core","init.c"),
+        os.path.join( "lwip","src","core","pbuf.c"),
+        os.path.join( "lwip","src","core","mem.c"),
+        os.path.join( "lwip","src","core","memp.c"),
+        os.path.join( "lwip","src","core","netif.c"),
+        os.path.join( "lwip","src","core","raw.c"),
+        os.path.join( "lwip","src","core","stats.c"),
+        os.path.join( "lwip","src","core","lwip_sys.c"),
+        os.path.join( "lwip","src","core","tcp_in.c"),
+        os.path.join( "lwip","src","core","tcp_out.c"),
+        os.path.join( "lwip","src","core","tcp.c"),
+        os.path.join( "lwip","src","core","lwip_timers.c"),
+        os.path.join( "lwip","src","core","udp.c"),
+        os.path.join( "lwip","src","netif","ppp","auth.c"),
+        os.path.join( "lwip","src","netif","ppp","chap.c"),
+        os.path.join( "lwip","src","netif","ppp","chpms.c"),
+        os.path.join( "lwip","src","netif","ppp","fsm.c"),
+        os.path.join( "lwip","src","netif","ppp","ipcp.c"),
+        os.path.join( "lwip","src","netif","ppp","lcp.c"),
+        os.path.join( "lwip","src","netif","ppp","magic.c"),
+        os.path.join( "lwip","src","netif","ppp","md5.c"),
+        os.path.join( "lwip","src","netif","ppp","pap.c"),
+        os.path.join( "lwip","src","netif","ppp","ppp_oe.c"),
+        os.path.join( "lwip","src","netif","ppp","ppp.c"),
+        os.path.join( "lwip","src","netif","ppp","randm.c"),
+        os.path.join( "lwip","src","netif","ppp","vj.c"),
+
+        os.path.join( "lwip","src","netif","etharp.c"),
+        os.path.join( "lwip","src","netif","ethernetif.c"),
+        os.path.join( "lwip","src","netif","loopif.c"),
+        os.path.join( "lwip","src","netif","slipif.c"),
+
+
         os.path.join("soa", "soa.c"),
         os.path.join(
             "bal",
@@ -75,6 +146,39 @@ def build(bld):
         os.path.join("..", "application", "bms"),
         os.path.join("..", "application", "plausibility"),
         os.path.join("..", "application", "soa"),
+
+         os.path.join("..", "application","lwip","apps","httpserver_raw"),
+
+        os.path.join("..", "application","lwip", "hdk","inc"),
+        os.path.join("..", "application","lwip", "ports","hdk"),
+        os.path.join("..", "application","lwip", "ports","hdk","check"),
+        os.path.join("..", "application","lwip", "ports","hdk","include"),
+        os.path.join("..", "application","lwip", "ports","hdk","include","arch"),
+        os.path.join("..", "application","lwip", "ports","hdk","include","netif"),
+        os.path.join("..", "application","lwip", "ports","hdk","netif"),
+
+        os.path.join( "..", "application","lwip","src","api"),
+
+        os.path.join( "..", "application","lwip","src","core"),
+        os.path.join("..", "application", "lwip","src","core","ipv4"),
+        os.path.join("..", "application", "lwip","src","core","snmp"),
+
+        os.path.join("..", "application", "lwip","src","include"),
+        os.path.join("..", "application", "lwip","src","include","ipv4","lwip"),
+        os.path.join( "..", "application","lwip","src","include","lwip"),
+        os.path.join( "..", "application","lwip","src","include","netif"),
+        os.path.join( "..", "application","lwip","src","include","posix"),
+
+
+
+        os.path.join( "..", "application","lwip","src","netif"),
+        os.path.join( "..", "application","lwip","src","netif","ppp"),
+
+
+
+
+
+
         os.path.join("..", "driver", "config"),
         os.path.join("..", "driver", "interlock"),
         os.path.join("..", "driver", "contactor"),

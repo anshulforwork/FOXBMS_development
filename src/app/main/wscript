@@ -59,6 +59,35 @@ def build(bld):
         "include",
         os.path.join("include", "config"),
         os.path.join("..", "application", "config"),
+
+         os.path.join("..", "application", "config"),
+         os.path.join("..", "application","lwip","apps","httpserver_raw"),
+        os.path.join("..", "application","lwip", "hdk","inc"),
+        os.path.join("..", "application","lwip", "ports","hdk"),
+        os.path.join("..", "application","lwip", "ports","hdk","check"),
+        os.path.join("..", "application","lwip", "ports","hdk","include"),
+        os.path.join("..", "application","lwip", "ports","hdk","include","arch"),
+        os.path.join("..", "application","lwip", "ports","hdk","include","netif"),
+        os.path.join("..", "application","lwip", "ports","hdk","netif"),
+
+        os.path.join( "..", "application","lwip","src","api"),
+
+        os.path.join( "..", "application","lwip","src","core"),
+        os.path.join("..", "application", "lwip","src","core","ipv4"),
+        os.path.join("..", "application", "lwip","src","core","snmp"),
+
+        os.path.join("..", "application", "lwip","src","include"),
+        os.path.join("..", "application", "lwip","src","include","ipv4","lwip"),
+        os.path.join( "..", "application","lwip","src","include","lwip"),
+        os.path.join( "..", "application","lwip","src","include","netif"),
+        os.path.join( "..", "application","lwip","src","include","posix"),
+
+
+
+        os.path.join( "..", "application","lwip","src","netif"),
+        os.path.join( "..", "application","lwip","src","netif","ppp"),
+
+
         os.path.join("..", "driver", "adc"),
         os.path.join("..", "driver", "checksum"),
         os.path.join("..", "driver", "config"),
@@ -72,6 +101,7 @@ def build(bld):
         os.path.join("..", "driver", "pwm"),
         os.path.join("..", "driver", "spi"),
         os.path.join("..", "driver", "sps"),
+         os.path.join("..", "driver", "pex"),
         os.path.join("..", "driver", "mcu"),
         os.path.join("..", "engine", "config"),
         os.path.join("..", "engine", "database"),

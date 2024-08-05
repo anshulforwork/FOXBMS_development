@@ -71,8 +71,10 @@
 #include "foxmath.h"
 #include "i2c.h"
 #include "led.h"
+#include "lwip_main.h"
 #include "master_info.h"
 #include "os.h"
+#include "pex.h"
 #include "pwm.h"
 #include "spi.h"
 
@@ -102,17 +104,25 @@ int main(void) {
     LED_SetDebugLed();
     // for the SCI Communication
     sciInit();
-    sciSetBaudrate(UART3, 115200);  // Set Baudrate
-    sciSetBaudrate(UART4, 115200);  // Set Baudrate
+    sciSetBaudrate(UART3, 9600);  // Set Baudrate
+    sciSetBaudrate(UART4, 9600);  // Set Baudrate
     //_______________________________________________________________
     I2C_Initialize();
     DMA_Initialize();
     PWM_Initialize();
     DIAG_Initialize(&diag_device);
     MATH_StartupSelfTest();
+    PEX_SetPinDirectionOutput(PEX_PORT_EXPANDER2, PEX_PIN15);
+    PEX_SetPin(PEX_PORT_EXPANDER2, PEX_PIN15);
+    MCU_Delay_us(2000);
+    PEX_ResetPin(PEX_PORT_EXPANDER2, PEX_PIN15);
+    MATH_StartupSelfTest();
+    lwip_run();
+    // emacrun();
     const STD_RETURN_TYPE_e checkTimeHasPassedSelfTestReturnValue = OS_CheckTimeHasPassedSelfTest();
     FAS_ASSERT(checkTimeHasPassedSelfTestReturnValue == STD_OK);
-
+    lwip_run();
+    // emacrun();
     OS_InitializeOperatingSystem();
     if (OS_INIT_PRE_OS != os_boot) {
         /* Could not create Queues, Mutexes, Events and Tasks do not boot further from this point on */
