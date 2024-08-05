@@ -121,8 +121,8 @@ int main(void) {
     // emacrun();
     const STD_RETURN_TYPE_e checkTimeHasPassedSelfTestReturnValue = OS_CheckTimeHasPassedSelfTest();
     FAS_ASSERT(checkTimeHasPassedSelfTestReturnValue == STD_OK);
-    lwip_run();
-    // emacrun();
+    // lwip_run();
+    // // emacrun();
     OS_InitializeOperatingSystem();
     if (OS_INIT_PRE_OS != os_boot) {
         /* Could not create Queues, Mutexes, Events and Tasks do not boot further from this point on */

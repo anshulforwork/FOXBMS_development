@@ -96,11 +96,11 @@ extern void LED_SetDebugLed(void) {
 extern void LED_Trigger(void) {
     OS_EnterTaskCritical();
     // Sending the Data
-    uint16_t length  = sizeof(DATA1) / sizeof(DATA1[0]);
-    uint16_t length1 = sizeof(DATA2) / sizeof(DATA2[0]);
-    sciSendString(UART3, DATA1, length);
-    sciSendString(UART4, DATA2, length1);
-    //___________________________________________________________________________________
+    // uint16_t length  = sizeof(DATA1) / sizeof(DATA1[0]);
+    // uint16_t length1 = sizeof(DATA2) / sizeof(DATA2[0]);
+    // sciSendString(UART3, DATA1, length);
+    // sciSendString(UART4, DATA2, length1);
+    // //___________________________________________________________________________________
     uint32_t led_tmpOnOffTime_ms = led_onOffTime_ms;
     OS_ExitTaskCritical();
     FAS_ASSERT(led_tmpOnOffTime_ms != 0u);

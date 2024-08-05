@@ -159,19 +159,19 @@ struct hdkif {
 static struct hdkif hdkif_data[MAX_EMAC_INSTANCE];
 
 uint32 hdkif_swizzle_data(uint32 word) {
-#if ((__little_endian__ == 0) || (__LITTLE_ENDIAN__ == 0))
-    return word;
+// #if ((__little_endian__ == 0) || (__LITTLE_ENDIAN__ == 0))
+//     return word;
 
+// #else
+//     return (
+//         ((word << 24) & 0xFF000000) | ((word << 8) & 0x00FF0000) | ((word >> 8) & 0x0000FF00) |
+//         ((word >> 24) & 0x000000FF));
+// #endif
+#if ((__little_endian__ == 1) || (__LITTLE_ENDIAN__ == 1))
+    return word;
 #else
-    return (
-        ((word << 24) & 0xFF000000) | ((word << 8) & 0x00FF0000) | ((word >> 8) & 0x0000FF00) |
-        ((word >> 24) & 0x000000FF));
+    return __rev(word);
 #endif
-    // #if ((__little_endian__ == 1) || (__LITTLE_ENDIAN__ == 1))
-    //     return word;
-    // #else
-    //     return __rev(word);
-    // #endif
 }
 
 struct emac_tx_bdp *hdkif_swizzle_txp(volatile struct emac_tx_bdp *p) {
@@ -231,7 +231,7 @@ static err_t hdkif_link_setup(struct hdkif *hdkif) {
                 (uint32)hdkif->phy_addr,
                 (uint16)((uint16)DP83640_100BTX | (uint16)DP83640_100BTX_FD | (uint16)DP83640_10BT | (uint16)DP83640_10BT_FD)) ==
             TRUE) {
-            linkstat = EMAC_ERR_OK;
+            linkstat = ERR_OK;
 
             Dp83640PartnerAbilityGet(hdkif->mdio_base, hdkif->phy_addr, &partnr_ablty);
 
@@ -435,9 +435,10 @@ static err_t hdkif_hw_init(struct netif *netif) {
 
     // Dp83640Reset(hdkif->mdio_base, hdkif->phy_addr);
     gen_cfg(hdkif->mdio_base, hdkif->phy_addr);
-    // dp83869_SwStrap(hdkif->mdio_base, hdkif->phy_addr);
-    phy_status_read(hdkif->mdio_base, hdkif->phy_addr);
 
+    phy_status_read(hdkif->mdio_base, hdkif->phy_addr);
+    led_cfg_reg(hdkif->mdio_base, hdkif->phy_addr);
+    dp83869_SwStrap(hdkif->mdio_base, hdkif->phy_addr);
     sciDisplayText(sciREGx, txtCRLF2, sizeof(txtCRLF2));
     sciDisplayText(sciREGx, txtPhyGetId, sizeof(txtPhyGetId));
 
@@ -662,7 +663,7 @@ err_t hdkif_init(struct netif *netif) {
    * The last argument should be replaced with your link speed, in units
    * of bits per second.
   */
-    NETIF_INIT_SNMP(netif, snmp_ifType_ethernet_csmacd, 100000000);
+    NETIF_INIT_SNMP(netif, snmp_ifType_ethernet_csmacd, 10000000);
 
     hdkif->inst_num = inst_num;
 
