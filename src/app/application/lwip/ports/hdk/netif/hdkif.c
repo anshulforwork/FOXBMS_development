@@ -401,16 +401,16 @@ static err_t hdkif_hw_init(struct netif *netif) {
     struct txch *txch;
     struct rxch *rxch;
     struct pbuf *p, *q;
-    //  hdkif = &hdkif_data[0U];
-    //  EMACInstConfig(hdkif);
+    hdkif = &hdkif_data[0U];
+    hdkif_inst_config(hdkif);
     hdkif = netif->state;
 
     /* set MAC hardware address length */
-    netif->hwaddr_len = EMAC_HWADDR_LEN;
+    netif->hwaddr_len = ETHARP_HWADDR_LEN;
 
     /* set MAC hardware address */
-    for (temp = 0; temp < EMAC_HWADDR_LEN; temp++) {
-        netif->hwaddr[temp] = hdkif->mac_addr[(EMAC_HWADDR_LEN - 1) - temp];
+    for (temp = 0; temp < ETHARP_HWADDR_LEN; temp++) {
+        netif->hwaddr[temp] = hdkif->mac_addr[(ETHARP_HWADDR_LEN - 1) - temp];
     }
 
     /* maximum transfer unit */
@@ -566,7 +566,7 @@ static err_t hdkif_hw_init(struct netif *netif) {
     /* Acknowledge receive and transmit interrupts for proper interrupt pulsing*/
     EMACCoreIntAck(hdkif->emac_base, EMAC_INT_CORE0_RX);
     EMACCoreIntAck(hdkif->emac_base, EMAC_INT_CORE0_TX);
-    EMACMIIEnable(hdkif->emac_base);
+
 #if (EMAC_BROADCAST_ENABLE)
     EMACRxBroadCastEnable(hdkif->emac_base, (uint32)EMAC_CHANNELNUMBER);
 #else
@@ -590,6 +590,8 @@ static err_t hdkif_hw_init(struct netif *netif) {
     /*SAFETYMCUSW 1 J MR:14.1 <APPROVED> "If condition arameter is taken as input from GUI." */
     EMACDuplexSet(EMAC_0_BASE, (uint32)EMAC_DUPLEX_HALF);
 #endif
+    // EMACDMAInit(hdkif);
+    EMACMIIEnable(hdkif->emac_base);
 #if (EMAC_TX_ENABLE)
     EMACTxEnable(hdkif->emac_base);
     EMACTxIntPulseEnable(
@@ -621,8 +623,6 @@ static err_t hdkif_hw_init(struct netif *netif) {
 
     /* Write the RX HDP for channel 0 */
     //EMACRxHdrDescPtrWrite(hdkif->emac_base, (uint32)rxch->active_head, 0);
-
-    // EMACMIIEnable(hdkif->emac_base);
 
     /**
   * Enable the Transmission and reception, enable the interrupts for

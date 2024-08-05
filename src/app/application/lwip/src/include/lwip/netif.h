@@ -46,8 +46,7 @@ struct dhcp;
 #if LWIP_AUTOIP
 struct autoip;
 #endif
-// typedef struct ip_addr ip_addr_t;
-// typedef struct ip_addr_packed ip_addr_p_t;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
