@@ -86,15 +86,15 @@ void EMAC_LwIP_Main(uint8_t *macAddress) {
 
     /* Initialze the lwIP library, using static.*/
 
-    //sciDisplayText(sciREGx, txtEnetInit, sizeof(txtEnetInit));
-    //ipAddr = lwIPInit(0, macAddress, 0, 0, 0, IPADDR_USE_DHCP);
+    sciDisplayText(sciREGx, txtEnetInit, sizeof(txtEnetInit));
+    ipAddr = lwIPInit(0, macAddress, 0, 0, 0, IPADDR_USE_DHCP);
     /* Uncomment the following if you'd like to assign a static IP address. Change address as required, and uncomment the previous statement. */
 
-    uint8 ip_addr[4] = {169, 254, 190, 111};
-    uint8 netmask[4] = {255, 255, 0, 0};
-    uint8 gateway[4] = {0, 0, 0, 0};
-    ipAddr           = lwIPInit(
-        0, macAddress, *((uint32_t *)ip_addr), *((uint32_t *)netmask), *((uint32_t *)gateway), IPADDR_USE_STATIC);
+    // uint8 ip_addr[4] = {169, 254, 190, 111};
+    // uint8 netmask[4] = {255, 255, 0, 0};
+    // uint8 gateway[4] = {0, 0, 0, 0};
+    // ipAddr           = lwIPInit(
+    //     0, macAddress, *((uint32_t *)ip_addr), *((uint32_t *)netmask), *((uint32_t *)gateway), IPADDR_USE_STATIC);
     sciDisplayText(sciREGx, (uint8_t *)"..DONE", sizeof("..DONE"));
     sciDisplayText(sciREGx, txtCRLF, sizeof(txtCRLF));
 
