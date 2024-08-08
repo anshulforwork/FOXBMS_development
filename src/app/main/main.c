@@ -112,6 +112,12 @@ int main(void) {
     PWM_Initialize();
     DIAG_Initialize(&diag_device);
     MATH_StartupSelfTest();
+    gioSetDirection(hetPORT2, 0x00200000);
+    gioSetBit(hetPORT2, 21, 1);
+    //********************// */
+    gioSetDirection(gioPORTB, 1 << 6);
+    gioSetBit(gioPORTB, 6, 1);
+    /************************ */
     PEX_SetPinDirectionOutput(PEX_PORT_EXPANDER2, PEX_PIN15);
     PEX_SetPin(PEX_PORT_EXPANDER2, PEX_PIN15);
     MCU_Delay_us(2000);

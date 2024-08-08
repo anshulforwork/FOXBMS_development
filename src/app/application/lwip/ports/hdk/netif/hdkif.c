@@ -682,7 +682,7 @@ err_t hdkif_init(struct netif *netif) {
    */
     netif->output     = etharp_output;
     netif->linkoutput = hdkif_output;
-    EMACInit(hdkif->emac_ctrl_base, hdkif->emac_base);
+   // EMACInit(hdkif->emac_ctrl_base, hdkif->emac_base);
     /* initialize the hardware */
     hdkif_inst_config(hdkif);
 
