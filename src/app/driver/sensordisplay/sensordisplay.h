@@ -14,8 +14,8 @@
 
 #include <stdint.h>
 /*****************************Macros and definitions**************************/
-#define UART3     ((sciBASE_t *)0xFFF7E500U)
-#define UART4     ((sciBASE_t *)0xFFF7E700U)
+#define UART3     ((sciBASE_t *)0xFFF7E700U)
+#define UART4     ((sciBASE_t *)0xFFF7E500U)
 #define Baud_rate (115200)
 
 /*========== Extern Constant and Variable Declarations ======================*/

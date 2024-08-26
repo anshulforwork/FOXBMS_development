@@ -268,6 +268,8 @@ typedef struct {
     uint16_t dataLength;
 } N775_MESSAGE_s;
 
+
+
 /*========== Extern Function Prototypes =====================================*/
 
 /*========== Externalized Static Functions Prototypes (Unit Test) ===========*/

@@ -70,6 +70,7 @@
 #include "fstd_types.h"
 #include "ftask.h"
 #include "mcu.h"
+#include "nxp_mc33775a_defs.h"
 #include "os.h"
 #include "spi.h"
 
@@ -119,6 +120,19 @@ N775_STATE_s n775_stateBase = {
     .n775Data.errorTable        = &n775_errorTable,
 };
 
+BVS_STATUS_r s_bvsbase[4] = {
+    {0xFFFF, 0xFFFF, 0xFFFF},
+    {0xFFFF, 0xFFFF, 0xFFFF},
+    {0xFFFF, 0xFFFF, 0xFFFF},
+    {0xFFFF, 0xFFFF, 0xFFFF},
+};
+// BVS_STATUS_r *rState; // global
+
+//BVS_STATUS_r *rState = (BVS_STATUS_r *)&s_bvsbase;
+
+uint8_t okStatus[3];
+
+//
 /*========== Static Function Prototypes =====================================*/
 /**
  * @brief   manages balancing.
@@ -231,8 +245,8 @@ static STD_RETURN_TYPE_e N775_SetMuxChannel(N775_STATE_s *pState);
  * @param  pState  state of the NXP MC33775A driver
  */
 static void N775_StartMeasurement(N775_STATE_s *pState);
-
-/**
+static void N775_BalanceControl(N775_STATE_s *pState);
+/**;
  * @brief   transmit over I2C on NXP slave.
  * @param   pState state of the NXP MC33775A driver
  */
@@ -251,13 +265,15 @@ static void N775_Wait(uint32_t milliseconds);
 static void N775_BalanceControl(N775_STATE_s *pState) {
     FAS_ASSERT(pState != NULL_PTR);
 
-    N775_BalanceSetup(pState);
+    N775_BalanceSetup(pState);  // WRITE at 1000h bit 2 = 1, bit 0 = 1
 
     DATA_READ_DATA(pState->n775Data.balancingControl);
 
     for (uint8_t m = 0u; m < BS_NR_OF_MODULES_PER_STRING; m++) {
         uint8_t deviceAddress   = m + 1u;
         uint16_t balancingState = 0u;
+        BVS_STATUS_r *rState    = &s_bvsbase[m];
+        n775_RegisterRead(pState, rState, m + 1);  //
         for (uint16_t c = 0u; c < BS_NR_OF_CELL_BLOCKS_PER_MODULE; c++) {
             if (pState->n775Data.balancingControl
                     ->balancingState[pState->currentString][c + (m * BS_NR_OF_CELL_BLOCKS_PER_MODULE)] != 0u) {
@@ -270,6 +286,16 @@ static void N775_BalanceControl(N775_STATE_s *pState) {
         N775_CommunicationWrite(deviceAddress, MC33775_BAL_CH_CFG_OFFSET, balancingState, pState->pSpiTxSequence);
     }
 }
+
+// static uint16_t glob_cfg_read(N775_STATE_s *pState) {
+//     uint16_t glob_cfg_read;
+//     uint16 gen_status_data = 0x0000u;
+//     uint16 *gen_status_ptr = &gen_status_data;
+//     glob_cfg_read = N775_CommunicationRead(N775_BROADCAST_ADDRESS, MC33775_BAL_GLOB_CFG_OFFSET, gen_status_ptr, pState);
+//     return glob_cfg_read;
+// }
+// static uint16_t status_read(N775_STATE_s *pstate) {
+// }
 
 static void N775_BalanceSetup(N775_STATE_s *pState) {
     FAS_ASSERT(pState != NULL_PTR);
@@ -295,8 +321,8 @@ static void N775_BalanceSetup(N775_STATE_s *pState) {
         N775_BROADCAST_ADDRESS,
         MC33775_BAL_GLOB_CFG_OFFSET,
         (MC33775_BAL_GLOB_CFG_BALEN_ENABLED_ENUM_VAL << MC33775_BAL_GLOB_CFG_BALEN_POS) |
-            MC33775_BAL_GLOB_CFG_CHUV0BALEN_STOP_ENUM_VAL << MC33775_BAL_GLOB_CFG_CHUV0BALEN_POS,
-        pState->pSpiTxSequence);
+            (MC33775_BAL_GLOB_CFG_CHUV0BALEN_STOP_ENUM_VAL << MC33775_BAL_GLOB_CFG_CHUV0BALEN_POS),
+        pState->pSpiTxSequence);  // FOR BAL EN & CHUV0
 
     N775_CommunicationWrite(
         N775_BROADCAST_ADDRESS,
@@ -452,7 +478,7 @@ static void N775_CaptureMeasurement(N775_STATE_s *pState) {
 
     DATA_WRITE_DATA(pState->n775Data.cellVoltage, pState->n775Data.cellTemperature, pState->n775Data.allGpioVoltage);
 }
-
+uint16_t uiEnumCounter = 0;
 static STD_RETURN_TYPE_e N775_Enumerate(N775_STATE_s *pState) {
     FAS_ASSERT(pState != NULL_PTR);
     uint16_t readValue                        = 0u;
@@ -463,6 +489,7 @@ static STD_RETURN_TYPE_e N775_Enumerate(N775_STATE_s *pState) {
     /** Parse all slaves in the daisy-chain */
     for (uint8_t i = 1; i <= BS_NR_OF_MODULES_PER_STRING; i++) {
         /* First send slave to deep sleep to reset message counter */
+        uiEnumCounter++;
         N775_CommunicationWrite(
             i,
             MC33775_SYS_MODE_OFFSET,
@@ -566,16 +593,6 @@ static void N775_IncrementStringSequence(N775_STATE_s *pState) {
 
 static void N775_Initialize(N775_STATE_s *pState) {
     FAS_ASSERT(pState != NULL_PTR);
-    // N775_CommunicationWrite(
-    //     (N775_DEFAULT_CHAIN_ADDRESS<<6),
-    //     MC33775_SYS_TPL_CFG_OFFSET,
-    //     MC33775_SYS_TPL_CFG_WAKEUPCOMPL_MC33775A_ENUM_VAL << MC33775_SYS_TPL_CFG_WAKEUPCOMPH_POS,
-    //     pState->pSpiTxSequence);
-    // N775_CommunicationWrite(
-    //     (N775_DEFAULT_CHAIN_ADDRESS << 6),
-    //     MC33775_SYS_TPL_CFG_OFFSET,
-    //     MC33775_SYS_TPL_CFG_WAKEUPCOMPL_MC33664_ENUM_VAL << MC33775_SYS_TPL_CFG_WAKEUPCOMPL_POS,
-    //     pState->pSpiTxSequence);
 
     /* Reset mux sequence */
     N775_ResetMuxIndex(pState);
@@ -1232,7 +1249,6 @@ extern bool N775_IsFirstMeasurementCycleFinished(N775_STATE_s *pState) {
 
 extern void N775_Measure(N775_STATE_s *pState) {
     FAS_ASSERT(pState != NULL_PTR);
-
     N775_InitializeDatabase(pState);
     /* Initialize SPI sequence pointers */
     pState->pSpiTxSequenceStart = spi_nxp775InterfaceTx;
@@ -1241,6 +1257,7 @@ extern void N775_Measure(N775_STATE_s *pState) {
     /* Initialize each string */
     N775_ResetStringSequence(pState);
     //while
+
     while (pState->currentString < BS_NR_OF_STRINGS) {
         /* Initialize mux sequence pointers */
         pState->pMuxSequenceStart[pState->currentString] = n775_muxSequence;
@@ -1285,6 +1302,27 @@ extern void N775_Measure(N775_STATE_s *pState) {
             N775_SetFirstMeasurementCycleFinished(pState);
         }
     }
+}
+
+static void n775_RegisterRead(N775_STATE_s *pState, BVS_STATUS_r *rState, uint8 devAdd) {
+    //Assert check
+    FAS_ASSERT(pState != NULL_PTR);
+    uint16_t readValue;
+
+    /* Wake up slave */
+    okStatus[0]           = N775_CommunicationRead(devAdd, 1, &readValue, pState);
+    (*rState).sys_com_cfg = readValue;
+    N775_Wait(3u);
+
+    okStatus[1]            = N775_CommunicationRead(devAdd, 0x1801, &readValue, pState);
+    (*rState).bal_glob_cfg = readValue;
+    N775_Wait(3u);
+
+    okStatus[2]               = N775_CommunicationRead(devAdd, 0x1802, &readValue, pState);
+    (*rState).bal_glob_to_tmr = readValue;
+    N775_Wait(3u);
+
+    okStatus[0] = okStatus[0];  // To avoid the compile error as it is not used
 }
 
 /*========== Externalized Static Function Implementations (Unit Test) =======*/

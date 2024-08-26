@@ -267,11 +267,10 @@ extern void FTSK_CreateTasks(void) {
         &ftsk_taskEngine);
     FAS_ASSERT(ftsk_taskHandleEngine != NULL); /* Trap if initialization failed */
 
-    /* Cyclic Task 1ms */
+    // Cyclic Task 1ms
     static StaticTask_t ftsk_taskCyclic1ms                                           = {0};
     static StackType_t ftsk_stackCyclic1ms[FTSK_TASK_CYCLIC_1MS_STACK_SIZE_IN_WORDS] = {0};
-
-    const TaskHandle_t ftsk_taskHandleCyclic1ms = xTaskCreateStatic(
+    const TaskHandle_t ftsk_taskHandleCyclic1ms                                      = xTaskCreateStatic(
         (TaskFunction_t)FTSK_CreateTaskCyclic1ms,
         (const portCHAR *)"TaskCyclic1ms",
         FTSK_BYTES_TO_WORDS(ftsk_taskDefinitionCyclic1ms.stackSize_B),
@@ -279,9 +278,9 @@ extern void FTSK_CreateTasks(void) {
         (UBaseType_t)ftsk_taskDefinitionCyclic1ms.priority,
         ftsk_stackCyclic1ms,
         &ftsk_taskCyclic1ms);
-    FAS_ASSERT(ftsk_taskHandleCyclic1ms != NULL); /* Trap if initialization failed */
+    FAS_ASSERT(ftsk_taskHandleCyclic1ms != NULL);  // Trap if initialization failed
 
-    /* Cyclic Task 10ms */
+    // Cyclic Task 10ms
     static StaticTask_t ftsk_taskCyclic10ms                                            = {0};
     static StackType_t ftsk_stackCyclic10ms[FTSK_TASK_CYCLIC_10MS_STACK_SIZE_IN_WORDS] = {0};
 
@@ -293,9 +292,9 @@ extern void FTSK_CreateTasks(void) {
         (UBaseType_t)ftsk_taskDefinitionCyclic10ms.priority,
         ftsk_stackCyclic10ms,
         &ftsk_taskCyclic10ms);
-    FAS_ASSERT(ftsk_taskHandleCyclic10ms != NULL); /* Trap if initialization failed */
+    FAS_ASSERT(ftsk_taskHandleCyclic10ms != NULL);  // Trap if initialization failed
 
-    /* Cyclic Task 100ms */
+    // Cyclic Task 100ms
     static StaticTask_t ftsk_taskCyclic100ms                                             = {0};
     static StackType_t ftsk_stackCyclic100ms[FTSK_TASK_CYCLIC_100MS_STACK_SIZE_IN_WORDS] = {0};
 
@@ -307,9 +306,9 @@ extern void FTSK_CreateTasks(void) {
         (UBaseType_t)ftsk_taskDefinitionCyclic100ms.priority,
         ftsk_stackCyclic100ms,
         &ftsk_taskCyclic100ms);
-    FAS_ASSERT(ftsk_taskHandleCyclic100ms != NULL); /* Trap if initialization failed */
+    FAS_ASSERT(ftsk_taskHandleCyclic100ms != NULL);  // Trap if initialization failed
 
-    /* Cyclic Task 100ms for algorithms */
+    // Cyclic Task 100ms for algorithms
     static StaticTask_t ftsk_taskCyclicAlgorithm100ms                                                       = {0};
     static StackType_t ftsk_stackCyclicAlgorithm100ms[FTSK_TASK_CYCLIC_ALGORITHM_100MS_STACK_SIZE_IN_WORDS] = {0};
 
@@ -321,9 +320,9 @@ extern void FTSK_CreateTasks(void) {
         (UBaseType_t)ftsk_taskDefinitionCyclicAlgorithm100ms.priority,
         ftsk_stackCyclicAlgorithm100ms,
         &ftsk_taskCyclicAlgorithm100ms);
-    FAS_ASSERT(ftsk_taskHandleCyclicAlgorithm100ms != NULL); /* Trap if initialization failed */
+    FAS_ASSERT(ftsk_taskHandleCyclicAlgorithm100ms != NULL);  // Trap if initialization failed
 
-    /* Continuously running Task for I2C */
+    // Continuously running Task for I2C
     static StaticTask_t ftsk_taskI2c                                        = {0};
     static StackType_t ftsk_stackSizeI2c[FTSK_TASK_AFE_STACK_SIZE_IN_WORDS] = {0};
 
@@ -335,13 +334,13 @@ extern void FTSK_CreateTasks(void) {
         (UBaseType_t)ftsk_taskDefinitionI2c.priority,
         ftsk_stackSizeI2c,
         &ftsk_taskI2c);
-    FAS_ASSERT(ftsk_taskHandleI2c != NULL); /* Trap if initialization failed */
+    FAS_ASSERT(ftsk_taskHandleI2c != NULL);  // Trap if initialization failed
 
-    /* This task is required in the BMS application and therefore declared by
-       the public name as defined in 'os.h'. The details how this task is
-       declared is however only important for the implementation and therefore
-       the FreeRTOS specific names can be used. */
-    /* Continuously running Task for AFE */
+    // This task is required in the BMS application and therefore declared by
+    //   the public name as defined in 'os.h'. The details how this task is
+    //   declared is however only important for the implementation and therefore
+    //  the FreeRTOS specific names can be used.
+    // Continuously running Task for AFE
     static StaticTask_t ftsk_taskAfe                                        = {0};
     static StackType_t ftsk_stackSizeAfe[FTSK_TASK_AFE_STACK_SIZE_IN_WORDS] = {0};
 
@@ -353,7 +352,7 @@ extern void FTSK_CreateTasks(void) {
         (UBaseType_t)ftsk_taskDefinitionAfe.priority,
         ftsk_stackSizeAfe,
         &ftsk_taskAfe);
-    FAS_ASSERT(ftsk_taskHandleAfe != NULL); /* Trap if initialization failed */
+    FAS_ASSERT(ftsk_taskHandleAfe != NULL);  // Trap if initialization failed
 }
 
 /*========== Externalized Static Function Implementations (Unit Test) =======*/

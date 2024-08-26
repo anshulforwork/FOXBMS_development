@@ -110,7 +110,7 @@ typedef enum {
  * @ptype   uint
  */
 
-#define BS_NR_OF_MODULES_PER_STRING (5u)
+#define BS_NR_OF_MODULES_PER_STRING (4u)
 
 /**
  * @brief   number of cells per module

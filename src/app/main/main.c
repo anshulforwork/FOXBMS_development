@@ -62,7 +62,6 @@
 #include "HL_het.h"
 #include "HL_pinmux.h"
 #include "HL_reg_sci.h"
-#include "HL_sci.h"
 #include "HL_sys_core.h"
 
 #include "adc.h"
@@ -78,8 +77,13 @@
 #include "sensordisplay.h"
 #include "spi.h"
 
+#include <stdbool.h>
 #include <stdint.h>
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <strings.h>
+//
 /*========== Macros and Definitions =========================================*/
 
 /*========== Static Constant and Variable Definitions =======================*/
@@ -100,6 +104,7 @@ int main(void) {
     SPI_Initialize();
     adcInit();
     hetInit();
+
     etpwmInit();
     crcInit();
     LED_SetDebugLed();
@@ -112,6 +117,7 @@ int main(void) {
     gioSetDirection(hetPORT2, 0x00200000);
     gioSetBit(hetPORT2, 21, 1);
     //********************// */
+
     const STD_RETURN_TYPE_e checkTimeHasPassedSelfTestReturnValue = OS_CheckTimeHasPassedSelfTest();
     FAS_ASSERT(checkTimeHasPassedSelfTestReturnValue == STD_OK);
 

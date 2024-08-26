@@ -247,6 +247,7 @@ extern void FTSK_RunUserCodeCyclic10ms(void) {
     SPS_Ctrl();
     ADC_Control();
     voltage_Contactor_control_input();
+    //Aux_Contactor_control_input();
     CAN_MainFunction();
     SOF_Calculation();
     ALGO_MonitorExecutionTime();

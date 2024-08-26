@@ -70,6 +70,16 @@
 extern N775_STATE_s n775_stateBase;
 
 /*========== Extern Function Prototypes =====================================*/
+typedef struct {
+    uint16_t sys_com_cfg;      // 0 // MC33775_SYS_COM_CFG_OFFSET
+    uint16_t bal_glob_cfg;     // 0 // MC33775_SYS_COM_CFG_OFFSET
+    uint16_t bal_glob_to_tmr;  // 1
+    // Add more reg here
+} BVS_STATUS_r;
+
+// typedef struct {
+//     uint16_t status_reg;
+// }reg_status;
 
 /**
  * @brief   trigger a read on the I2C bus of the slave.
@@ -122,6 +132,8 @@ extern bool N775_IsFirstMeasurementCycleFinished(N775_STATE_s *pState);
  * @param   pState state of the N775A driver
  */
 extern void N775_Measure(N775_STATE_s *pState);
+
+static void n775_RegisterRead(N775_STATE_s *pState, BVS_STATUS_r *rState, uint8 devAdd);
 
 /*========== Externalized Static Functions Prototypes (Unit Test) ===========*/
 #ifdef UNITY_UNIT_TEST
